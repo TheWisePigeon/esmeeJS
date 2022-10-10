@@ -1,5 +1,10 @@
-const ROOT_DIR = ""
+const ROOT_DIR = "C:\\Users\\TheWisePigeon\\Documents\\esmeeJS\\test"
+
+const DOCS = 
+`Welcome to EsmeeDB. This is a light version of the docs. Please refer to the online documentation for more details
+`
 
 export {
-    ROOT_DIR
+    ROOT_DIR,
+    DOCS
 }
