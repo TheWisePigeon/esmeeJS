@@ -1,20 +1,20 @@
 import { ROOT_DIR } from "./constants.js"
 import fs from "fs"
-import inquirer from "inquirer";
+import { log } from "console";
 
 /**
  * @param {string} name
  */
 function createTree(name) {
     if (fs.existsSync(`${ROOT_DIR}\\${name}`)) {
-        console.log("Can't create existing tree");
+        log("Can't create existing tree");
         return
     }
     try {
         fs.mkdirSync(`${ROOT_DIR}\\${name}`)
-        console.log(`Tree ${name} planted :)`);
+        log(`Tree ${name} planted :)`);
     } catch (error) {
-        console.log("Something went wrong");
+        log("Something went wrong");
         process.exit(1)
     }
 }
@@ -24,19 +24,31 @@ function createTree(name) {
  */
 async function removeTree(name) {
     if (!fs.existsSync(`${ROOT_DIR}\\${name}`)) {
-        console.log("Can't delete non existing tree");
+        log("Can't delete non existing tree");
         return
     }
     try {
         fs.rmdirSync(`${ROOT_DIR}\\${name}`, {
             force: true
         })
-        console.log(`Tree ${name} removed `);
+        log(`Tree ${name} removed `);
     } catch (error) {
-        console.log("Something went wrong");
+        log("Something went wrong");
         process.exit(1)
     }
 
+}
+
+/**
+ * @param {string} name
+ * @returns { boolean | void }
+ */
+function  climbTree(name){
+    if(! fs.existsSync(`${process.cwd()}\\${name}`) ){
+        log("Can't climb inexisting tree")
+        return false
+    }
+    return true
 }
 
 /**
@@ -60,5 +72,6 @@ export {
     createTree,
     createBranch,
     createLeaf,
-    removeTree
+    removeTree,
+    climbTree
 }

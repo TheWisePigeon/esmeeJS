@@ -1,9 +1,15 @@
 import { DOCS } from "./constants.js"
-import { createBranch, createTree, createLeaf, removeTree } from "./utils.js"
+import { createBranch, createTree, createLeaf, removeTree, climbTree } from "./utils.js"
+import { log, table } from "console"
+
+/**
+ * @type {string}
+ */
+let root = ""
 
 /**
  * @param {string} query 
- * @returns 
+ * @returns {Promise<boolean> | Promise<string> | Promise<void> }
  */
 export default async function Interpreter(query) {
     query = query.trim()
@@ -12,12 +18,12 @@ export default async function Interpreter(query) {
 
     if (degree == 1) {
         if (query == "exit") {
-            console.log("Bye");
+            log("Bye");
             process.exit(0)
         }
 
         if (query == "help") {
-            console.log(DOCS);
+            log(DOCS);
             return
         }
     }
@@ -27,7 +33,15 @@ export default async function Interpreter(query) {
             case "uproot":
                 removeTree(commands[1])
                 return;
-        
+            
+            case "climb":
+                let result = climbTree(commands[1])
+                log(result)
+                if(!result){
+                    return[false]
+                }
+                root=`${commands[1]}`
+                return ["climb", commands[1]]
             default:
                 return;
         }
@@ -45,7 +59,7 @@ export default async function Interpreter(query) {
                         return
                 
                     default:
-                        console.log("Invalid query");
+                        log("Invalid query");
                         return
                 }
                 
@@ -56,5 +70,5 @@ export default async function Interpreter(query) {
         }
     }
 
-    console.log("Unknown query");
+    log("Unknown query");
 }
